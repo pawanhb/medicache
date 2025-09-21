@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: patient-management-system
+  datasource:
+    url: jdbc:postgresql://localhost:5432/patientdb
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+        jdbc:
+          batch_size: 50
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+  cache:
+    type: caffeine
+    caffeine:
+      spec: maximumSize=10000,expireAfterAccess=30m
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.example.patientmanagement: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.cache: DEBUG
