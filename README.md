@@ -13,7 +13,7 @@ A Spring Boot application for managing and retrieving patient data with efficien
 ## Technologies
 
 - Java 17
-- Spring Boot 3.1.0
+- Spring Boot 3.5.6
 - Hibernate with JPA
 - PostgreSQL
 - Caffeine Cache
