@@ -1,0 +1,39 @@
+CREATE TABLE Patients (
+    patient_id INT PRIMARY KEY AUTO_INCREMENT,
+    mrn VARCHAR(50) NOT NULL UNIQUE, -- Medical Record Number
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    gender VARCHAR(10), -- Consider using ENUM('Male', 'Female', 'Other') or a lookup table
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_name (last_name, first_name),
+    INDEX idx_dob (date_of_birth)
+);
+
+CREATE TABLE Doctors (
+    doctor_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    specialty VARCHAR(255)
+);
+
+CREATE TABLE Visits (
+    visit_id INT PRIMARY KEY AUTO_INCREMENT,
+    patient_id INT NOT NULL,
+    doctor_id INT NOT NULL,
+    visit_date DATE NOT NULL,
+    visit_type VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (patient_id) REFERENCES Patients(patient_id) ON DELETE CASCADE,
+    FOREIGN KEY (doctor_id) REFERENCES Doctors(doctor_id),
+    INDEX idx_visit_date (visit_date), 
+    INDEX idx_patient_visit (patient_id, visit_date)
+);
+
+CREATE TABLE Diagnoses (
+    diagnosis_id INT PRIMARY KEY AUTO_INCREMENT,
+    visit_id INT NOT NULL,
+    code VARCHAR(20) NOT NULL,
+    description TEXT,
+    FOREIGN KEY (visit_id) REFERENCES Visits(visit_id) ON DELETE CASCADE,
+    INDEX idx_code (code) 
+);
